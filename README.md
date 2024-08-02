@@ -9,6 +9,7 @@
 3. Store somewhere else
 4. No Schedule
 
+`pip install matplotlib pandas requests wordcloud tqdm`
 `pip install dagster dagit`
 
 `dagit -f hn_dagster.py`
@@ -28,6 +29,7 @@ from dagster import RetryPolicy
 ```
 
 ### Scheduling
+- Dagster has `Declaritive Scheduling` i.e. specify what tasks need to be done rather than how to do them. 
 - The asset should be `x` minutes or less lagged from reality.
 - Dagster will run automatically every x minutes.
 
@@ -37,7 +39,6 @@ from dagster import FreshnessPolicy
 @asset(
     FreshnessPolicy(
         maximum_lag_minutes=30,
-
     )
 )
 ```
@@ -50,4 +51,22 @@ def hackernews_source_data():
     return extract()
 ``` 
 
-https://dagster.io/blog/declarative-scheduling
+- we can iterate over less expensive operations as many times, and expensive ones can run as per schedule
+
+### Loading - IO Manager
+- It can be useful to test different storage environments
+- IO manager abstracts away all of the storage logic in our code
+- IO manager saves assets to disk, and then load them from disk
+
+```python
+from dagster import IOManager
+
+class HackerNewsIOManager(IOManager):
+    def load_input(self, context, length):
+        raise NotImplementedError()
+
+    def handle_output(self, context, md_content):
+        load(md_content)
+```
+
+*write about IOManager

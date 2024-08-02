@@ -1,0 +1,41 @@
+[32m2024-08-02 15:22:14 +0000[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 184f3396-54ef-495d-aef0-f559b3ced77f - 13132 - LOGS_CAPTURED - Started capturing logs in process (pid: 13132).
+[32m2024-08-02 15:22:14 +0000[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 184f3396-54ef-495d-aef0-f559b3ced77f - 13132 - hackernews_wordcloud - STEP_RESTARTED - Started re-execution (attempt # 2) of step "hackernews_wordcloud".
+[32m2024-08-02 15:22:14 +0000[0m - dagster - [34mDEBUG[0m - __ASSET_JOB - 184f3396-54ef-495d-aef0-f559b3ced77f - 13132 - hackernews_wordcloud - STEP_UP_FOR_RETRY - Execution of step "hackernews_wordcloud" failed and has requested a retry in 5 seconds.
+
+dagster._core.execution.plan.utils.RetryRequestedFromPolicy
+
+Stack Trace:
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/execute_plan.py", line 282, in dagster_event_sequence_for_step
+    for step_event in check.generator(step_events):
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/execute_step.py", line 494, in core_dagster_event_sequence_for_step
+    for user_event in _step_output_error_checked_user_event_sequence(
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/execute_step.py", line 183, in _step_output_error_checked_user_event_sequence
+    for user_event in user_event_sequence:
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/execute_step.py", line 88, in _process_asset_results_to_events
+    for user_event in user_event_sequence:
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/compute.py", line 198, in execute_core_compute
+    for step_output in _yield_compute_results(step_context, inputs, compute_fn, compute_context):
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/compute.py", line 167, in _yield_compute_results
+    for event in iterate_with_context(
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_utils/__init__.py", line 471, in iterate_with_context
+    with context_fn():
+  File "/usr/local/python/3.10.13/lib/python3.10/contextlib.py", line 153, in __exit__
+    self.gen.throw(typ, value, traceback)
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/utils.py", line 72, in op_execution_error_boundary
+    raise RetryRequestedFromPolicy(
+
+The above exception was caused by the following exception:
+RuntimeError: fake failure
+
+Stack Trace:
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/utils.py", line 54, in op_execution_error_boundary
+    yield
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_utils/__init__.py", line 473, in iterate_with_context
+    next_output = next(iterator)
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/compute_generator.py", line 141, in _coerce_op_compute_fn_to_iterator
+    result = invoke_compute_fn(
+  File "/usr/local/python/3.10.13/lib/python3.10/site-packages/dagster/_core/execution/plan/compute_generator.py", line 129, in invoke_compute_fn
+    return fn(context, **args_to_pass) if context_arg_provided else fn(**args_to_pass)
+  File "/workspaces/ETL-to-Dagster/hn_dagster.py", line 10, in hackernews_wordcloud
+    raise RuntimeError("fake failure")
+
